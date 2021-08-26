@@ -235,14 +235,20 @@ public class kmeans extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    // ArrayList Publicos Para las coordenadas de los atractores y los puntos
+    // Así acceder a su contenido en otros métodos
     public ArrayList cooaX = new ArrayList();
     public ArrayList cooaY = new ArrayList();
+    public ArrayList coopX = new ArrayList();
+    public ArrayList coopY = new ArrayList();
+    
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
         
         // EN PRIMER INSTANCIA COLOCAMOS QUE SE HAGA EL ALGORITMO CUANDO SE HAYAN
         // PUESTO TODOS LOS ATRACTORES        
-        coordenadasAtractores(cooaX, cooaY);        
+        coordenadas(cooaX, cooaY, coopX, coopY);        
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void generarPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_generarPMouseClicked
@@ -270,7 +276,7 @@ public class kmeans extends javax.swing.JFrame {
             return;
         }
         
-        pintandoPuntos();
+        pintandoPuntos(coopX, coopY);
     }//GEN-LAST:event_generarPMouseClicked
 
     private void aplicarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_aplicarMouseClicked
@@ -293,8 +299,9 @@ public class kmeans extends javax.swing.JFrame {
     
     private void ContenedorMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ContenedorMousePressed
  
-          //System.out.println("\n\n"+cx+", "+cy);
           
+          // Se manda a llamar la funcion de pintar los puntos, con 
+          // parametros cooaX,cooaY para registrar coordenadas de los atractores
             pintarAtractores(evt, cooaX, cooaY);
             
     }//GEN-LAST:event_ContenedorMousePressed
@@ -361,7 +368,8 @@ public class kmeans extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
 
-private void pintandoPuntos(){
+private void pintandoPuntos(ArrayList coopX, ArrayList coopY){
+    
         int PuntosEnteros = Integer.parseInt(puntos.getText());                    
         Graphics gp = Contenedor.getGraphics(); //Dibujando en el JPanel
         int numeroX,numeroY;
@@ -371,6 +379,8 @@ private void pintandoPuntos(){
             numeroY = (int) (Math.random() * 320 + 1);
             gp.setColor(Color.BLACK);
             gp.fillOval(numeroX, numeroY, 5, 5);
+            coopX.add(numeroX);
+            coopY.add(numeroY);
             System.out.println("Punto "+i+": X: "+numeroX+", Y: "+numeroY);
         }
 }
@@ -463,11 +473,20 @@ private void pintarAtractores(java.awt.event.MouseEvent evt, ArrayList cooaX, Ar
 }
 
 
-private void coordenadasAtractores(ArrayList cooaX, ArrayList cooaY ){
+private void coordenadas(ArrayList cooaX, ArrayList cooaY, ArrayList coopX, ArrayList coopY ){
+        
+        // COORDENADAS ATRACTORES
         System.out.println("\n\n");
         int tamAtrac = Integer.parseInt( atractores.getText() );
         for(int i=0; i<tamAtrac; i++){
             System.out.println("COORDENADAS ATRACTORES: X: "+cooaX.get(i)+", Y: "+cooaY.get(i));
+        }
+        
+        // COORDENADAS PUNTOS
+        System.out.println("\n\n");
+        int tamPuntos = Integer.parseInt( puntos.getText() );        
+        for(int i=0; i<tamPuntos; i++){
+            System.out.println("COORDENADAS PUNTOS: X: "+coopX.get(i)+", Y: "+coopY.get(i));
         }
 }
 
