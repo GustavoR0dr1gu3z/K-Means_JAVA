@@ -488,6 +488,33 @@ private void coordenadas(ArrayList cooaX, ArrayList cooaY, ArrayList coopX, Arra
         for(int i=0; i<tamPuntos; i++){
             System.out.println("COORDENADAS PUNTOS: X: "+coopX.get(i)+", Y: "+coopY.get(i));
         }
+
+
+        // PINTAR PUNTOS PARA CADA ATRACTOR
+        float resDistancia;
+        int xx,yy;
+        ArrayList distancias = new ArrayList();
+        
+        // Para cada punto calcula la distancia ente  punto-atractor
+        for(int i=0; i<tamPuntos; i++){  // X1, Y1
+            for(int j=0; j<tamAtrac; j++){ // X2, Y2
+                // Calculo de distancias entre dos puntos
+                // Forma euclidiana 
+                // ( (x2-x1)^2 + (y2-y1)^2 )^(1/2)
+
+                int x1 = (int) coopX.get(i);
+                int y1 = (int) coopY.get(i);
+                int x2 = (int) cooaX.get(j);
+                int y2 = (int) cooaY.get(j);
+                
+                resDistancia = (float)Math.sqrt( Math.pow( x2-x1 , 2) + Math.pow(y2-y1 , 2) ); 
+                System.out.println("Distancias: "+resDistancia);
+            }
+        }
+
+
+
+
 }
 
 
