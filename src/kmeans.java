@@ -1,18 +1,11 @@
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.List;
+import java.util.ArrayList;
 import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
 
-
-
-
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
  *
@@ -28,6 +21,8 @@ public class kmeans extends javax.swing.JFrame {
       //  System.out.println(puntosEnteros);
         this.setLocationRelativeTo(null); //Para que al inicio nos centre la ventana
         a1.setSelected(true); // Selección de un boton al inicial el programa
+            
+
     }
 
     /**
@@ -52,10 +47,22 @@ public class kmeans extends javax.swing.JFrame {
         a5 = new javax.swing.JRadioButton();
         a6 = new javax.swing.JRadioButton();
         a7 = new javax.swing.JRadioButton();
+        jLabel1 = new javax.swing.JLabel();
+        atractores = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
+        jTextField3 = new javax.swing.JTextField();
+        jTextField4 = new javax.swing.JTextField();
+        jTextField5 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        Contenedor.setBackground(new java.awt.Color(255, 255, 255));
         Contenedor.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)));
+        Contenedor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                ContenedorMousePressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout ContenedorLayout = new javax.swing.GroupLayout(Contenedor);
         Contenedor.setLayout(ContenedorLayout);
@@ -84,10 +91,13 @@ public class kmeans extends javax.swing.JFrame {
             }
         });
 
-        aplicar.setText("Aplicar  Atractores");
+        aplicar.setText("Reestablecer");
         aplicar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 aplicarMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                aplicarMousePressed(evt);
             }
         });
 
@@ -105,6 +115,25 @@ public class kmeans extends javax.swing.JFrame {
 
         a7.setText("Rojo");
 
+        jLabel1.setText("¿Cuantos atractores quiere?");
+
+        jTextField2.setEditable(false);
+        jTextField2.setText("(1)");
+        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField2ActionPerformed(evt);
+            }
+        });
+
+        jTextField3.setEditable(false);
+        jTextField3.setText("(2)");
+
+        jTextField4.setEditable(false);
+        jTextField4.setText("(3)");
+
+        jTextField5.setEditable(false);
+        jTextField5.setText("(4)");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -114,7 +143,7 @@ public class kmeans extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(Contenedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 14, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -133,21 +162,31 @@ public class kmeans extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(a6)
                                     .addComponent(a7)
-                                    .addComponent(a1))
+                                    .addComponent(a1)
+                                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addContainerGap())))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(aplicar)
+                        .addGap(25, 25, 25)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(puntos, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(generarP)
-                        .addGap(379, 379, 379)
-                        .addComponent(aplicar)
-                        .addGap(0, 0, Short.MAX_VALUE))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(236, 236, 236))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(atractores, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(132, 132, 132))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -155,9 +194,8 @@ public class kmeans extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(Contenedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18))
-                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(a1)
                         .addGap(18, 18, 18)
                         .addComponent(a2)
@@ -171,31 +209,40 @@ public class kmeans extends javax.swing.JFrame {
                         .addComponent(a6)
                         .addGap(18, 18, 18)
                         .addComponent(a7)
-                        .addGap(41, 41, 41)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(puntos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(generarP)
-                    .addComponent(aplicar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
-                .addContainerGap(18, Short.MAX_VALUE))
+                        .addGap(41, 41, 41)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(puntos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(generarP))
+                        .addGap(7, 7, 7))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(Contenedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(5, 5, 5)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(atractores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(23, 23, 23)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton1)
+                        .addComponent(aplicar)
+                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public ArrayList cooaX = new ArrayList();
+    public ArrayList cooaY = new ArrayList();
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
         
         // EN PRIMER INSTANCIA COLOCAMOS QUE SE HAGA EL ALGORITMO CUANDO SE HAYAN
-        // PUESTO TODOS LOS ATRACTORES
-        int PuntosEnteros = Integer.parseInt(puntos.getText());           
-
-        System.out.println(PuntosEnteros);
-        
-        
-        
+        // PUESTO TODOS LOS ATRACTORES        
+        coordenadasAtractores(cooaX, cooaY);        
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void generarPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_generarPMouseClicked
@@ -229,70 +276,32 @@ public class kmeans extends javax.swing.JFrame {
     private void aplicarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_aplicarMouseClicked
         // TODO add your handling code here:
         
-        int xX = evt.getX();
-        int yY = evt.getY();
-        Graphics gp = Contenedor.getGraphics(); //Dibujando en el JPanel
-          // Crear un grupo de Botones
-            ButtonGroup grupo = new ButtonGroup();
-            grupo.add(a1);
-            grupo.add(a2);
-            grupo.add(a3);
-            grupo.add(a4);
-            grupo.add(a5);      
-            grupo.add(a6);      
-            grupo.add(a7);      
-        
-            // Ver que boton seleccionó
-            if(a1.isSelected()==true)
-            {
-             System.out.print("\nAtractor Azul     "+"Posicion x = "+xX+" Posicion y = "+yY);
-             gp.setColor(Color.BLUE);
-             gp.fillRect(xX, yY, 8, 8);
-            }
-            else if(a2.isSelected()==true)
-            {
-             System.out.print("\nAtractor Cyan     "+"Posicion x = "+xX+" Posicion y = "+yY);
-             gp.setColor(Color.CYAN);
-             gp.fillRect(xX, yY, 8, 8);
-            }
-            else if(a3.isSelected()==true)
-            {
-             System.out.print("\nAtractor Verde     "+"Posicion x = "+xX+" Posicion y = "+yY);
-             gp.setColor(Color.GREEN);
-             gp.fillRect(xX, yY, 8, 8);
-            }
-            else if(a4.isSelected()==true)
-            {
-             System.out.print("\nAtractor Magenta     "+"Posicion x = "+xX+" Posicion y = "+yY);
-             gp.setColor(Color.MAGENTA);
-             gp.fillRect(xX, yY, 6, 6);
-            }
-            else if(a5.isSelected()==true)
-            {
-             System.out.print("\nAtractor Naranja     "+"Posicion x = "+xX+" Posicion y = "+yY);
-             gp.setColor(Color.ORANGE);
-             gp.fillRect(xX, yY, 8, 8);
-            }
-             else if(a6.isSelected()==true)
-            {
-             System.out.print("\nAtractor Rosa     "+"Posicion x = "+xX+" Posicion y = "+yY);
-             gp.setColor(Color.PINK);
-             gp.fillRect(xX, yY, 6, 6);
-            }
-              else if(a7.isSelected()==true)
-            {
-             System.out.print("\nAtractor Rojo     "+"Posicion x = "+xX+" Posicion y = "+yY);
-             gp.setColor(Color.RED);
-             gp.fillRect(xX, yY, 8, 8);
-            }
-            else{
-                // SIno seleccionó nada, que mande un mensaje
-                JOptionPane.showMessageDialog(null, "¡Seleccione una clase! ", "Clase", JOptionPane.WARNING_MESSAGE);
-            }
-        
-        
-        return;
+        puntos.setText("");      
+        Contenedor.repaint();
+        atractores.setText("");
+        System.out.println("LIMPIO");
     }//GEN-LAST:event_aplicarMouseClicked
+
+    private void aplicarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_aplicarMousePressed
+        // TODO add your handling code here:
+        
+ 
+      
+    }//GEN-LAST:event_aplicarMousePressed
+
+
+    
+    private void ContenedorMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ContenedorMousePressed
+ 
+          //System.out.println("\n\n"+cx+", "+cy);
+          
+            pintarAtractores(evt, cooaX, cooaY);
+            
+    }//GEN-LAST:event_ContenedorMousePressed
+
+    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -339,9 +348,15 @@ public class kmeans extends javax.swing.JFrame {
     private javax.swing.JRadioButton a6;
     private javax.swing.JRadioButton a7;
     private javax.swing.JButton aplicar;
+    private javax.swing.JTextField atractores;
     private javax.swing.JButton generarP;
     private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField puntos;
     // End of variables declaration//GEN-END:variables
 
@@ -360,12 +375,101 @@ private void pintandoPuntos(){
         }
 }
 
+private void pintarAtractores(java.awt.event.MouseEvent evt, ArrayList cooaX, ArrayList cooaY ){
+       // TODO add your handling code here:
+        int cx = 0;
+        int cy = 0;
+        Graphics gp = Contenedor.getGraphics(); //Dibujando en el JPanel
+          // Crear un grupo de Botones
+            ButtonGroup grupo = new ButtonGroup();
+            grupo.add(a1);
+            grupo.add(a2);
+            grupo.add(a3);
+            grupo.add(a4);
+            grupo.add(a5);      
+            grupo.add(a6);      
+            grupo.add(a7);      
+            
+            int xX = evt.getX();
+            int yY = evt.getY();
+            
+            int numAt = Integer.parseInt( atractores.getText() );
+            
 
-private void pintandoPuntosMouse(){
 
+
+            if(a1.isSelected()==true)
+            {
+             System.out.print("\nAtractor Azul     "+"Posicion x = "+xX+" Posicion y = "+yY);
+             gp.setColor(Color.BLUE);
+             gp.fillRect(xX, yY, 8, 8);
+             cooaX.add(xX);
+             cooaY.add(yY);
+            }
+            else if(a2.isSelected()==true)
+            {
+             System.out.print("\nAtractor Cyan     "+"Posicion x = "+xX+" Posicion y = "+yY);
+             gp.setColor(Color.CYAN);
+             gp.fillRect(xX, yY, 8, 8);
+             cooaX.add(xX);
+             cooaY.add(yY);
+            }
+            else if(a3.isSelected()==true)
+            {
+             System.out.print("\nAtractor Verde     "+"Posicion x = "+xX+" Posicion y = "+yY);
+             gp.setColor(Color.GREEN);
+             gp.fillRect(xX, yY, 8, 8);
+             cooaX.add(xX);
+             cooaY.add(yY);
+            }
+            else if(a4.isSelected()==true)
+            {
+             System.out.print("\nAtractor Magenta     "+"Posicion x = "+xX+" Posicion y = "+yY);
+             gp.setColor(Color.MAGENTA);
+             gp.fillRect(xX, yY, 6, 6);
+             cooaX.add(xX);
+             cooaY.add(yY);
+            }
+            else if(a5.isSelected()==true)
+            {
+             System.out.print("\nAtractor Naranja     "+"Posicion x = "+xX+" Posicion y = "+yY);
+             gp.setColor(Color.ORANGE);
+             gp.fillRect(xX, yY, 8, 8);
+             cooaX.add(xX);
+             cooaY.add(yY);
+            }
+             else if(a6.isSelected()==true)
+            {
+             System.out.print("\nAtractor Rosa     "+"Posicion x = "+xX+" Posicion y = "+yY);
+             gp.setColor(Color.PINK);
+             gp.fillRect(xX, yY, 6, 6);
+             cooaX.add(xX);
+             cooaY.add(yY);
+            }
+              else if(a7.isSelected()==true)
+            {
+             System.out.print("\nAtractor Rojo     "+"Posicion x = "+xX+" Posicion y = "+yY);
+             gp.setColor(Color.RED);
+             gp.fillRect(xX, yY, 8, 8);
+             this.cooaX.add(xX);
+             this.cooaX.add(yY);
+            }
+            else{
+                // SIno seleccionó nada, que mande un mensaje
+                JOptionPane.showMessageDialog(null, "¡Seleccione un Atractor! ", "Atractor", JOptionPane.WARNING_MESSAGE);
+            }
+        
 
 }
 
+
+private void coordenadasAtractores(ArrayList cooaX, ArrayList cooaY ){
+        System.out.println("\n\n");
+        int tamAtrac = Integer.parseInt( atractores.getText() );
+        for(int i=0; i<tamAtrac; i++){
+            System.out.println("COORDENADAS ATRACTORES: X: "+cooaX.get(i)+", Y: "+cooaY.get(i));
+        }
+}
 
 
 }
