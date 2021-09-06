@@ -9,7 +9,9 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author gustavo
+ * @author 
+ * gustavo rodriguez calzada
+ * francisco javier miguel garcia
  */
 public class kmeans extends javax.swing.JFrame {
 
@@ -285,7 +287,7 @@ public class kmeans extends javax.swing.JFrame {
         puntos.setText("");      
         Contenedor.repaint();
         atractores.setText("");
-        System.out.println("LIMPIO");
+        System.out.println("\nLIMPIO");
     }//GEN-LAST:event_aplicarMouseClicked
 
     private void aplicarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_aplicarMousePressed
@@ -491,13 +493,14 @@ private void coordenadas(ArrayList cooaX, ArrayList cooaY, ArrayList coopX, Arra
 
 
         // PINTAR PUNTOS PARA CADA ATRACTOR
-        float resDistancia;
-        int xx,yy;
+        float resDistancia;        
         ArrayList distancias = new ArrayList();
-        
+        ArrayList distanciasFull = new ArrayList();
+        System.out.println("");
         // Para cada punto calcula la distancia ente  punto-atractor
-        for(int i=0; i<tamPuntos; i++){  // X1, Y1
+        for(int i=0; i<tamPuntos; i++){  // X1, Y1            
             for(int j=0; j<tamAtrac; j++){ // X2, Y2
+                
                 // Calculo de distancias entre dos puntos
                 // Forma euclidiana 
                 // ( (x2-x1)^2 + (y2-y1)^2 )^(1/2)
@@ -506,16 +509,56 @@ private void coordenadas(ArrayList cooaX, ArrayList cooaY, ArrayList coopX, Arra
                 int y1 = (int) coopY.get(i);
                 int x2 = (int) cooaX.get(j);
                 int y2 = (int) cooaY.get(j);
+                               
                 
-                resDistancia = (float)Math.sqrt( Math.pow( x2-x1 , 2) + Math.pow(y2-y1 , 2) ); 
-                System.out.println("Distancias: "+resDistancia);
+                resDistancia = (float)Math.sqrt( Math.pow( x2-x1 , 2) + Math.pow(y2-y1 , 2) );
+                System.out.println("Distancia del Punto: "+i+" con el  Atractor: "+j+".\tES: "+resDistancia);
+                                                
+                distancias.add(resDistancia);
+                distanciasFull.add(resDistancia);
+                              
             }
+            System.out.println(" ");
         }
 
-
-
+/*
+        System.out.println("\n IMPRIMIENDO DISTANCIAS \n");
+        for(int i=0; i<distancias.size(); i++){
+            System.out.println(distancias.get(i));
+            
+        
+                            int dx = (int)distanciasFull.get(j);
+                    int dy = (int)distanciasFull.get(j+1);
+                    
+                    if( dx < dy){
+                        System.out.println(dx);
+                    }else{
+                        System.out.println(dy);
+                    }
+        
+        }
+*/
+        ArrayList distancias2 = new ArrayList();
+        Graphics gp = Contenedor.getGraphics(); //Dibujando en el JPanel
+        int xX, yY;
+        int aux;
+        /*     for(int i=0; i<tamPuntos; i++){  // X1, Y1            
+                for(int j=0; j<tamAtrac; j++){ // X2, Y2
+                    if( i == 0 ){
+                        aux = (int)distanciasFull.get(j);
+                        /*if(){
+                        }*/
+        /*                xX = (int)coopX.get(i);
+                        yY = (int)coopY.get(i);
+                        gp.setColor(Color.BLUE);
+                        gp.fillOval(xX, yY, 6, 6);
+                    }else{
+                        System.out.println("hola");
+                    }
+                }
+             }
+                */
+        }
 
 }
 
-
-}
