@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.List;
 import java.util.ArrayList;
+import java.util.Collections;
 import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
 
@@ -81,6 +82,11 @@ public class kmeans extends javax.swing.JFrame {
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton1MouseClicked(evt);
+            }
+        });
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -244,13 +250,16 @@ public class kmeans extends javax.swing.JFrame {
     public ArrayList cooaY = new ArrayList();
     public ArrayList coopX = new ArrayList();
     public ArrayList coopY = new ArrayList();
-    
+    public ArrayList<Color> clasesColor = new ArrayList<>();
+    public ArrayList<Color> colorAtractor = new ArrayList<>();
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
         
         // EN PRIMER INSTANCIA COLOCAMOS QUE SE HAGA EL ALGORITMO CUANDO SE HAYAN
         // PUESTO TODOS LOS ATRACTORES        
-        coordenadas(cooaX, cooaY, coopX, coopY);        
+        coordenadas(cooaX, cooaY, coopX, coopY, clasesColor);
+        centroides(coopX, coopY, colorAtractor, clasesColor, cooaX, cooaY);
+        
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void generarPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_generarPMouseClicked
@@ -288,6 +297,12 @@ public class kmeans extends javax.swing.JFrame {
         Contenedor.repaint();
         atractores.setText("");
         System.out.println("\nLIMPIO");
+        cooaX.clear();
+        cooaY.clear();
+        coopX.clear();
+        coopY.clear();
+        colorAtractor.clear();
+        clasesColor.clear();
     }//GEN-LAST:event_aplicarMouseClicked
 
     private void aplicarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_aplicarMousePressed
@@ -311,6 +326,10 @@ public class kmeans extends javax.swing.JFrame {
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -417,6 +436,7 @@ private void pintarAtractores(java.awt.event.MouseEvent evt, ArrayList cooaX, Ar
              gp.fillRect(xX, yY, 8, 8);
              cooaX.add(xX);
              cooaY.add(yY);
+             colorAtractor.add(Color.BLUE);
             }
             else if(a2.isSelected()==true)
             {
@@ -425,6 +445,7 @@ private void pintarAtractores(java.awt.event.MouseEvent evt, ArrayList cooaX, Ar
              gp.fillRect(xX, yY, 8, 8);
              cooaX.add(xX);
              cooaY.add(yY);
+             colorAtractor.add(Color.CYAN);
             }
             else if(a3.isSelected()==true)
             {
@@ -433,6 +454,7 @@ private void pintarAtractores(java.awt.event.MouseEvent evt, ArrayList cooaX, Ar
              gp.fillRect(xX, yY, 8, 8);
              cooaX.add(xX);
              cooaY.add(yY);
+             colorAtractor.add(Color.GREEN);
             }
             else if(a4.isSelected()==true)
             {
@@ -441,6 +463,7 @@ private void pintarAtractores(java.awt.event.MouseEvent evt, ArrayList cooaX, Ar
              gp.fillRect(xX, yY, 6, 6);
              cooaX.add(xX);
              cooaY.add(yY);
+             colorAtractor.add(Color.MAGENTA);
             }
             else if(a5.isSelected()==true)
             {
@@ -449,6 +472,7 @@ private void pintarAtractores(java.awt.event.MouseEvent evt, ArrayList cooaX, Ar
              gp.fillRect(xX, yY, 8, 8);
              cooaX.add(xX);
              cooaY.add(yY);
+             colorAtractor.add(Color.ORANGE);
             }
              else if(a6.isSelected()==true)
             {
@@ -457,6 +481,7 @@ private void pintarAtractores(java.awt.event.MouseEvent evt, ArrayList cooaX, Ar
              gp.fillRect(xX, yY, 6, 6);
              cooaX.add(xX);
              cooaY.add(yY);
+             colorAtractor.add(Color.PINK);
             }
               else if(a7.isSelected()==true)
             {
@@ -465,6 +490,7 @@ private void pintarAtractores(java.awt.event.MouseEvent evt, ArrayList cooaX, Ar
              gp.fillRect(xX, yY, 8, 8);
              this.cooaX.add(xX);
              this.cooaX.add(yY);
+             colorAtractor.add(Color.RED);
             }
             else{
                 // SIno seleccionó nada, que mande un mensaje
@@ -475,7 +501,7 @@ private void pintarAtractores(java.awt.event.MouseEvent evt, ArrayList cooaX, Ar
 }
 
 
-private void coordenadas(ArrayList cooaX, ArrayList cooaY, ArrayList coopX, ArrayList coopY ){
+private void coordenadas(ArrayList cooaX, ArrayList cooaY, ArrayList coopX, ArrayList coopY, ArrayList clasesColor ){
         
         // COORDENADAS ATRACTORES
         System.out.println("\n\n");
@@ -495,8 +521,16 @@ private void coordenadas(ArrayList cooaX, ArrayList cooaY, ArrayList coopX, Arra
         // PINTAR PUNTOS PARA CADA ATRACTOR
         float resDistancia;        
         ArrayList distancias = new ArrayList();
-        ArrayList distanciasFull = new ArrayList();
+        ArrayList distanciasMin = new ArrayList();
+        ArrayList distancias2 = new ArrayList();
+        float aux;
         System.out.println("");
+            float minimo;
+        int indexM;
+        
+        Color caux;
+        Graphics gp = Contenedor.getGraphics(); //Dibujando en el JPanel
+
         // Para cada punto calcula la distancia ente  punto-atractor
         for(int i=0; i<tamPuntos; i++){  // X1, Y1            
             for(int j=0; j<tamAtrac; j++){ // X2, Y2
@@ -513,52 +547,78 @@ private void coordenadas(ArrayList cooaX, ArrayList cooaY, ArrayList coopX, Arra
                 
                 resDistancia = (float)Math.sqrt( Math.pow( x2-x1 , 2) + Math.pow(y2-y1 , 2) );
                 System.out.println("Distancia del Punto: "+i+" con el  Atractor: "+j+".\tES: "+resDistancia);
-                                                
-                distancias.add(resDistancia);
-                distanciasFull.add(resDistancia);
+                                
+                
+                distancias.add(resDistancia);                                    
+                
                               
-            }
-            System.out.println(" ");
-        }
+            }          
+                minimo = (float) Collections.min(distancias);
+                indexM = distancias.indexOf(minimo);
+                System.out.println("Indice: "+indexM+", Minimo: "+minimo+"\n");
+                distanciasMin.add(minimo);
+                
+            //System.out.println("indice valor "+indexMin);
+            caux = colorAtractor.get(indexM);
+           System.out.println("color del atractor "+caux);
 
-/*
-        System.out.println("\n IMPRIMIENDO DISTANCIAS \n");
-        for(int i=0; i<distancias.size(); i++){
-            System.out.println(distancias.get(i));
-            
-        
-                            int dx = (int)distanciasFull.get(j);
-                    int dy = (int)distanciasFull.get(j+1);
-                    
-                    if( dx < dy){
-                        System.out.println(dx);
-                    }else{
-                        System.out.println(dy);
-                    }
-        
+            //colorPuntos.add(caux);
+            clasesColor.add(caux);
+            gp.setColor(caux);
+            gp.fillOval( (int)coopX.get(i), (int)coopY.get(i), 5, 5);
+            distancias.clear();
         }
-*/
-        ArrayList distancias2 = new ArrayList();
-        Graphics gp = Contenedor.getGraphics(); //Dibujando en el JPanel
-        int xX, yY;
-        int aux;
-        /*     for(int i=0; i<tamPuntos; i++){  // X1, Y1            
-                for(int j=0; j<tamAtrac; j++){ // X2, Y2
-                    if( i == 0 ){
-                        aux = (int)distanciasFull.get(j);
-                        /*if(){
-                        }*/
-        /*                xX = (int)coopX.get(i);
-                        yY = (int)coopY.get(i);
-                        gp.setColor(Color.BLUE);
-                        gp.fillOval(xX, yY, 6, 6);
-                    }else{
-                        System.out.println("hola");
-                    }
-                }
+    
              }
-                */
+                
+
+private void centroides(ArrayList coopX, ArrayList coopY, ArrayList colorAtractor, ArrayList clasesColor, ArrayList cooaX, ArrayList cooaY){
+
+        int tamPuntos = Integer.parseInt( puntos.getText() );        
+        int tamAtrac = Integer.parseInt( atractores.getText() );
+        
+        ArrayList auxAX = new ArrayList<>();
+        ArrayList auxAY = new ArrayList<>();      
+        int contadores[] = new int[tamAtrac];
+        int cont;
+        
+        for(int i=0; i<tamAtrac; i++){
+            auxAX.add(0);
+            auxAY.add(0);
+            contadores[i] = 0;
         }
+        
+        for(int i=0; i<tamPuntos; i++){             
+            for(int j=0; j<tamAtrac; j++){
+                if( clasesColor.get(i) == colorAtractor.get(j) ){
+                    cont = (int)auxAX.get(j) + (int)coopX.get(i);
+                    auxAX.set(j, cont);
+                    cont = 0;
+                    cont = (int)auxAY.get(j) + (int)coopY.get(i);
+                    auxAY.set(j, cont);
+                    
+                    // Guarda numero de puntos del mismo color
+                    contadores[j]+=1;
+                }
+            }
+        }
+        
+        Graphics gp = Contenedor.getGraphics();
+        for(int i=0; i<tamAtrac; i++){
+            // Calculo de centroides
+            cooaX.set( i, (int)auxAX.get(i)/contadores[i] );
+            cooaY.set( i, (int)auxAY.get(i)/contadores[i] );
+            
+            gp.setColor((Color) colorAtractor.get(i));
+            gp.fillOval( (int)cooaX.get(i) , (int)cooaY.get(i), 10, 10);
+        }
+        
+        
+        clasesColor.clear();
+
+    }
+
+
 
 }
 
