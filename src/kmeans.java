@@ -521,11 +521,9 @@ private void coordenadas(ArrayList cooaX, ArrayList cooaY, ArrayList coopX, Arra
         // PINTAR PUNTOS PARA CADA ATRACTOR
         float resDistancia;        
         ArrayList distancias = new ArrayList();
-        ArrayList distanciasMin = new ArrayList();
-        ArrayList distancias2 = new ArrayList();
-        float aux;
+        ArrayList distanciasMin = new ArrayList();        
         System.out.println("");
-            float minimo;
+        float minimo;
         int indexM;
         
         Color caux;
@@ -544,11 +542,11 @@ private void coordenadas(ArrayList cooaX, ArrayList cooaY, ArrayList coopX, Arra
                 int x2 = (int) cooaX.get(j);
                 int y2 = (int) cooaY.get(j);
                                
-                
+                // Calculando Distancias
                 resDistancia = (float)Math.sqrt( Math.pow( x2-x1 , 2) + Math.pow(y2-y1 , 2) );
                 System.out.println("Distancia del Punto: "+i+" con el  Atractor: "+j+".\tES: "+resDistancia);
                                 
-                
+                // Agregando Distancias
                 distancias.add(resDistancia);                                    
                 
                               
