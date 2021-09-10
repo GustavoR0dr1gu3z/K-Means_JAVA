@@ -564,6 +564,8 @@ private void coordenadas(ArrayList cooaX, ArrayList cooaY, ArrayList coopX, Arra
            System.out.println("color del atractor "+caux);
 
             //colorPuntos.add(caux);
+            
+            // Coloreando los puntos de acuerdo a un color
             clasesColor.add(caux);
             gp.setColor(caux);
             gp.fillOval( (int)coopX.get(i), (int)coopY.get(i), 5, 5);
@@ -582,19 +584,22 @@ private void centroides(ArrayList coopX, ArrayList coopY, ArrayList colorAtracto
         ArrayList auxAY = new ArrayList<>();      
         int contadores[] = new int[tamAtrac];
         int cont;
-        
+        // Inicializando arrayList
         for(int i=0; i<tamAtrac; i++){
             auxAX.add(0);
             auxAY.add(0);
             contadores[i] = 0;
         }
         
+        
         for(int i=0; i<tamPuntos; i++){             
             for(int j=0; j<tamAtrac; j++){
                 if( clasesColor.get(i) == colorAtractor.get(j) ){
+                    // Calculo de centroides en X
                     cont = (int)auxAX.get(j) + (int)coopX.get(i);
                     auxAX.set(j, cont);
                     cont = 0;
+                    // Calculo de centroides en Y
                     cont = (int)auxAY.get(j) + (int)coopY.get(i);
                     auxAY.set(j, cont);
                     
