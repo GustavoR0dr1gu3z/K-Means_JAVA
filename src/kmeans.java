@@ -550,10 +550,13 @@ private void coordenadas(ArrayList cooaX, ArrayList cooaY, ArrayList coopX, Arra
                 distancias.add(resDistancia);                                    
                 
                               
-            }          
+            }    
+                // Calculando distancia minima entre punto y cada atractor
                 minimo = (float) Collections.min(distancias);
+                // Obteniendo su indice
                 indexM = distancias.indexOf(minimo);
                 System.out.println("Indice: "+indexM+", Minimo: "+minimo+"\n");
+                // Distancias mínimas guardadas
                 distanciasMin.add(minimo);
                 
             //System.out.println("indice valor "+indexMin);
