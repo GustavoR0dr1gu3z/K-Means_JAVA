@@ -595,11 +595,11 @@ private void centroides(ArrayList coopX, ArrayList coopY, ArrayList colorAtracto
         for(int i=0; i<tamPuntos; i++){             
             for(int j=0; j<tamAtrac; j++){
                 if( clasesColor.get(i) == colorAtractor.get(j) ){
-                    // Calculo de centroides en X
+                    // Sumas en X
                     cont = (int)auxAX.get(j) + (int)coopX.get(i);
                     auxAX.set(j, cont);
                     cont = 0;
-                    // Calculo de centroides en Y
+                    // Sumas en Y
                     cont = (int)auxAY.get(j) + (int)coopY.get(i);
                     auxAY.set(j, cont);
                     
@@ -611,10 +611,13 @@ private void centroides(ArrayList coopX, ArrayList coopY, ArrayList colorAtracto
         
         Graphics gp = Contenedor.getGraphics();
         for(int i=0; i<tamAtrac; i++){
-            // Calculo de centroides
+            // Calculo de centroides en X
             cooaX.set( i, (int)auxAX.get(i)/contadores[i] );
+            
+            // Calculo de centroides en Y
             cooaY.set( i, (int)auxAY.get(i)/contadores[i] );
             
+            // Colorear los centroides
             gp.setColor((Color) colorAtractor.get(i));
             gp.fillOval( (int)cooaX.get(i) , (int)cooaY.get(i), 10, 10);
         }
