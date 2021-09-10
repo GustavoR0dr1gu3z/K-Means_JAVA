@@ -258,7 +258,7 @@ public class kmeans extends javax.swing.JFrame {
         // EN PRIMER INSTANCIA COLOCAMOS QUE SE HAGA EL ALGORITMO CUANDO SE HAYAN
         // PUESTO TODOS LOS ATRACTORES        
         coordenadas(cooaX, cooaY, coopX, coopY, clasesColor);
-        centroides(coopX, coopY, colorAtractor, clasesColor, cooaX, cooaY);
+        centroides(coopX, coopY, colorAtractor, clasesColor, cooaX, cooaY);                
         
     }//GEN-LAST:event_jButton1MouseClicked
 
@@ -503,6 +503,7 @@ private void pintarAtractores(java.awt.event.MouseEvent evt, ArrayList cooaX, Ar
 
 private void coordenadas(ArrayList cooaX, ArrayList cooaY, ArrayList coopX, ArrayList coopY, ArrayList clasesColor ){
         
+    
         // COORDENADAS ATRACTORES
         System.out.println("\n\n");
         int tamAtrac = Integer.parseInt( atractores.getText() );
@@ -519,7 +520,9 @@ private void coordenadas(ArrayList cooaX, ArrayList cooaY, ArrayList coopX, Arra
 
 
         // PINTAR PUNTOS PARA CADA ATRACTOR
-        float resDistancia;        
+        float resDistancia;     
+        float resDistanciaManhatan;
+        float resDistanciaChebysov;
         ArrayList distancias = new ArrayList();
         ArrayList distanciasMin = new ArrayList();        
         System.out.println("");
@@ -537,20 +540,44 @@ private void coordenadas(ArrayList cooaX, ArrayList cooaY, ArrayList coopX, Arra
                 // Forma euclidiana 
                 // ( (x2-x1)^2 + (y2-y1)^2 )^(1/2)
 
+                // Forma Manhatan (Geometria del taxi)
+                // |x2-x1| + |y2-y1|    (Distancia siempre positiva)
+                
+                //Distancia de Chebyshov
+                // max( |x1-x2|, |y1-y2| )
+                
+                
+                
                 int x1 = (int) coopX.get(i);
                 int y1 = (int) coopY.get(i);
                 int x2 = (int) cooaX.get(j);
                 int y2 = (int) cooaY.get(j);
-                               
-                // Calculando Distancias
+
+                // Manhatan
+                System.out.println("---------------MANHATAN----------------");
+                resDistanciaManhatan = ( Math.abs(x2-x1) + Math.abs(y2-y1) );
+                System.out.println("Distancia del Punto: "+i+" con el  Atractor: "+j+".\tES: "+resDistanciaManhatan);
+                
+                // Chebysov
+                System.out.println("---------------CHEBYSOV----------------");
+                resDistanciaChebysov = Math.max(Math.abs(x1-x2), Math.abs(y1-y2) );
+                System.out.println("Distancia del Punto: "+i+" con el  Atractor: "+j+".\tES: "+resDistanciaChebysov);
+                
+                // Euclidiana
+                System.out.println("----------------EUCLIDIANA-------------");
                 resDistancia = (float)Math.sqrt( Math.pow( x2-x1 , 2) + Math.pow(y2-y1 , 2) );
                 System.out.println("Distancia del Punto: "+i+" con el  Atractor: "+j+".\tES: "+resDistancia);
-                                
-                // Agregando Distancias
-                distancias.add(resDistancia);                                    
                 
-                              
+              
+                // Agregando Distancias EUCLIDIANA
+                //distancias.add(resDistancia);     
+                
+                // DISTANCIAS MANHATAN
+                //distancias.add(resDistanciaManhatan);
+                // DISTANCIAS CHEVYSOV
+                distancias.add(resDistanciaChebysov);
             }    
+            
                 // Calculando distancia minima entre punto y cada atractor
                 minimo = (float) Collections.min(distancias);
                 // Obteniendo su indice
@@ -561,7 +588,7 @@ private void coordenadas(ArrayList cooaX, ArrayList cooaY, ArrayList coopX, Arra
                 
             //System.out.println("indice valor "+indexMin);
             caux = colorAtractor.get(indexM);
-           System.out.println("color del atractor "+caux);
+            System.out.println("color del atractor "+caux);
 
             //colorPuntos.add(caux);
             
@@ -571,6 +598,7 @@ private void coordenadas(ArrayList cooaX, ArrayList cooaY, ArrayList coopX, Arra
             gp.fillOval( (int)coopX.get(i), (int)coopY.get(i), 5, 5);
             distancias.clear();
         }
+               
     
              }
                 
@@ -609,18 +637,33 @@ private void centroides(ArrayList coopX, ArrayList coopY, ArrayList colorAtracto
             }
         }
         
+        ArrayList auxCooaX = new ArrayList<>(cooaX);      
+        ArrayList auxCooaY = new ArrayList<>(cooaY);      
+        int centX, centY;
         Graphics gp = Contenedor.getGraphics();
         for(int i=0; i<tamAtrac; i++){
             // Calculo de centroides en X
-            cooaX.set( i, (int)auxAX.get(i)/contadores[i] );
-            
+            centX = (int)auxAX.get(i)/contadores[i];            
             // Calculo de centroides en Y
-            cooaY.set( i, (int)auxAY.get(i)/contadores[i] );
+            centY = (int)auxAY.get(i)/contadores[i];
+            
+            
+            
+            cooaX.set( i, centX );                        
+            cooaY.set( i, centY );
             
             // Colorear los centroides
             gp.setColor((Color) colorAtractor.get(i));
             gp.fillOval( (int)cooaX.get(i) , (int)cooaY.get(i), 10, 10);
         }
+        
+        if(cooaX.equals(auxCooaX) || cooaY.equals(auxCooaY) ){
+                System.out.println("LOS CENTROIDES NO HAN CAMBIADO CON RESPECTO A ITERACIÓN PASADA, PROGRAMA FINALIZADO");
+                JOptionPane.showMessageDialog(null, "¡Programa Finalizado! ", "K-Means", JOptionPane.WARNING_MESSAGE);
+                
+            }else{
+                System.out.println("LOS CENTROIDES CAMBIARON, PROGRAMA AÚN EN EJECUCIÓN");
+            }
         
         
         clasesColor.clear();
